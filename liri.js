@@ -91,19 +91,20 @@ function getMovie(value) {
     request(encoded, function (err, response, body) {
         if (!err) {
             var b = JSON.parse(body);
+           
+            // still working on pointer functions but overall this code makes sense. 
+            var ratings = b.Ratings
+            var rtIndex = ratings.findIndex(x => x.Source == "Rotten Tomatoes")
+            var imdbIndex = ratings.findIndex(x => x.Source == "Internet Movie Database")
 
-
-
-            
-            console.log(b)
             console.log("Title: " + b.Title);
-            console.log("Release Year: " + b.Year );
-            console.log("IMDB Rating: " + b.Ratings[0]);
-            console.log("Rotten Tomatoes Rating: " + b.Ratings[2].value );
-            console.log("Country of Origin: " + b.Country );
-            console.log("Language: " + b.Language );
-            console.log("Plot: " + b.Plot );
-            // console.log("Actors: " + );
+            console.log("Release Year: " + b.Year);
+            console.log("IMDB Rating: " + ratings[imdbIndex].Value);
+            console.log("Rotten Tomatoes Rating: " + ratings[rtIndex].Value);
+            console.log("Country of Origin: " + b.Country);
+            console.log("Language: " + b.Language);
+            console.log("Plot: " + b.Plot);
+            console.log("Actors: " + b.Actors);
         } else {
             console.log(err)
         }
