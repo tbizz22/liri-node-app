@@ -57,12 +57,12 @@ function getTweet() {
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
             var t = tweets
-          
-            for (i=0; i < t.length; i++) {
+
+            for (i = 0; i < t.length; i++) {
                 console.log(t[i].text);
                 console.log(t[i].created_at);
                 console.log("---------------------------");
-            }          
+            }
         } else {
             return console.log(error);
         }
@@ -81,6 +81,35 @@ function doIt() {
 
 }
 
+
+function getMovie(value) {
+    var movieName = value;
+    var token = key.omdb.key;
+    var url = ("http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=" + token)
+    var encoded = encodeURI(url);
+
+    request(encoded, function (err, response, body) {
+        if (!err) {
+            var b = JSON.parse(body);
+
+
+
+            
+            console.log(b)
+            console.log("Title: " + b.Title);
+            console.log("Release Year: " + b.Year );
+            console.log("IMDB Rating: " + b.Ratings[0]);
+            console.log("Rotten Tomatoes Rating: " + b.Ratings[2].value );
+            console.log("Country of Origin: " + b.Country );
+            console.log("Language: " + b.Language );
+            console.log("Plot: " + b.Plot );
+            // console.log("Actors: " + );
+        } else {
+            console.log(err)
+        }
+    })
+
+}
 
 // main page logic here
 
