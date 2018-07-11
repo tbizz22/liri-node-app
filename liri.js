@@ -9,39 +9,60 @@ var request = require('request');
 var Twitter = require('twitter');
 
 var client = new Twitter({
-    consumer_key: Twitter.consumer_key,
-    consumer_secret: Twitter.consumer_secret,
-    access_token_key: Twitter.access_token_key,
-    access_token_secret: Twitter.access_token_secret
+    consumer_key: key.twitter.consumer_key,
+    consumer_secret: key.twitter.consumer_secret,
+    access_token_key: key.twitter.access_token_key,
+    access_token_secret: key.twitter.access_token_secret
 });
 
 // bring in the spotify
 
 var Spotify = require('node-spotify-api');
 
-// var spotify = new Spotify({
-//     id: Spotify.id,
-//     secret: Spotify.secret
-// });
 
-// spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-//     if (err) {
-//       return console.log('Error occurred: ' + err);
-//     }
+// command functions here
 
-//   console.log(data); 
-//   });
+function getSong(value) {
+    var spotify = new Spotify({
+        id: key.spotify.id,
+        secret: key.spotify.secret
+    });
 
+    spotify.search({
+        type: 'track',
+        query: value,
+        limit: 1
+    }, function (err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+        r = data.tracks.items[0];
+
+        console.log("Artist: " + r.artists[0].name)
+        console.log("Song Title: " + r.name)
+        console.log("Preview the Song: " + r.preview_url)
+        console.log("Album: " + r.album.name + " (" + r.album.release_date + ")")
+
+    });
+}
 
 
 function getTweet() {
     var params = {
-        screen_name: "tbizz22"
+        screen_name: "tbizz22",
+        // homework calls for 20. That feels like a lot...
+        count: "5"
     };
 
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            return console.log(tweets);
+            var t = tweets
+          
+            for (i=0; i < t.length; i++) {
+                console.log(t[i].text);
+                console.log(t[i].created_at);
+                console.log("---------------------------");
+            }          
         } else {
             return console.log(error);
         }
@@ -50,10 +71,24 @@ function getTweet() {
 
 
 
+function printHelp() {
+
+}
+
+
+
+function doIt() {
+
+}
+
+
+// main page logic here
+
 
 var action = process.argv[2];
 var value = setValue();
 
+// this is handling nulls as not all commands have a second value passed
 function setValue() {
     if (process.argv[3] != null) {
         return process.argv[3];
@@ -69,14 +104,14 @@ switch (action) {
     case 'spotify-this-song':
         getSong(value);
         break;
-    case 'movie-this' :
+    case 'movie-this':
         getMovie(value);
         break;
-    case 'do-what-it-says' :
-        DoIt();
+    case 'do-what-it-says':
+        doIt();
         break;
-    case 'help' :
+    case 'help':
         printHelp();
-    default: 
+    default:
         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
 }

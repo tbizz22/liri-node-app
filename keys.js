@@ -1,4 +1,5 @@
-console.log('this is loaded');
+// hiding this. Was in the homework instructions
+// console.log('this is loaded');
 
 exports.twitter = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
