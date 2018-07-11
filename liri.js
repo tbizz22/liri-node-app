@@ -1,3 +1,6 @@
+//def gotta read some documents
+var fs = require("fs");
+
 //bring in the .env
 require('dotenv').config()
 var key = require("./keys.js")
@@ -18,6 +21,8 @@ var client = new Twitter({
 // bring in the spotify
 
 var Spotify = require('node-spotify-api');
+
+
 
 
 // command functions here
@@ -78,6 +83,14 @@ function printHelp() {
 
 
 function doIt() {
+    fs.readFile("random.txt", "utf8", function (err, data) {
+        if (!err) {
+            var text = data.split(" ");
+            return text;
+        } else {
+            console.log("File could not be read.")
+        }
+    })
 
 }
 
@@ -91,7 +104,7 @@ function getMovie(value) {
     request(encoded, function (err, response, body) {
         if (!err) {
             var b = JSON.parse(body);
-           
+
             // still working on pointer functions but overall this code makes sense. 
             var ratings = b.Ratings
             var rtIndex = ratings.findIndex(x => x.Source == "Rotten Tomatoes")
@@ -109,14 +122,17 @@ function getMovie(value) {
             console.log(err)
         }
     })
-
-}
+};
 
 // main page logic here
 
 
 var action = process.argv[2];
 var value = setValue();
+
+
+   logic(action, value);
+
 
 // this is handling nulls as not all commands have a second value passed
 function setValue() {
@@ -125,23 +141,74 @@ function setValue() {
     } else {
         return 0;
     }
-}
+};
 
-switch (action) {
-    case 'my-tweets':
-        getTweet()
-        break;
-    case 'spotify-this-song':
+
+
+
+function logic(action,value) {
+    console.log(action);
+    console.log(value)
+    if (action === "my-tweets") {
+        getTweet();
+    } else if (action === "spotify-this-song") {
         getSong(value);
-        break;
-    case 'movie-this':
+    } else if (action === "movie-this") {
         getMovie(value);
-        break;
-    case 'do-what-it-says':
+    } else if (action === "do-what-it-says" && value === 0) {
+        var arr = [];
         doIt();
-        break;
-    case 'help':
-        printHelp();
-    default:
+        arr[0] = action;
+        arr[1] = value;
+        logic(action,value)
+    } else {
         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
-}
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// switch (action) {
+//     case 'my-tweets':
+//         getTweet()
+//         break;
+//     case 'spotify-this-song':
+//         getSong(value);
+//         break;
+//     case 'movie-this':
+//         getMovie(value);
+//         break;
+//     case 'do-what-it-says':
+//         doIt();
+//         break;
+//     case 'help':
+//         printHelp();
+//     default:
+//         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
+// }
