@@ -82,11 +82,13 @@ function printHelp() {
 
 
 
-function doIt() {
-    fs.readFile("random.txt", "utf8", function (err, data) {
+const doIt = () => {
+    console.log("doIt was called")
+    fs.readFile("random.txt", "utf8", function(err, data) {
+        console.log(data + "preif")
         if (!err) {
-            var text = data.split(" ");
-            return text;
+            console.log(data + "data");
+            return data;
         } else {
             console.log("File could not be read.")
         }
@@ -147,19 +149,24 @@ function setValue() {
 
 
 function logic(action, value) {
-    console.log(action);
-    console.log(value)
+    
     if (action === "my-tweets") {
         getTweet();
+
     } else if (action === "spotify-this-song") {
         getSong(value);
+
     } else if (action === "movie-this") {
         getMovie(value);
+
     } else if (action === "do-what-it-says" && value === 0) {
-        // var arr = [];
-        // doIt();
-        // action = arr[0];
-        // value = arr[1];
+        var arr = doIt();
+        console.log(arr + "logic");
+       var cmd = arr.split(",")
+      // console.log(arr);
+        action = cmd[0];
+        value = cmd[1];
+
         // logic(action, value)
     } else {
         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
