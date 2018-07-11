@@ -131,7 +131,7 @@ var action = process.argv[2];
 var value = setValue();
 
 
-   logic(action, value);
+logic(action, value);
 
 
 // this is handling nulls as not all commands have a second value passed
@@ -146,7 +146,7 @@ function setValue() {
 
 
 
-function logic(action,value) {
+function logic(action, value) {
     console.log(action);
     console.log(value)
     if (action === "my-tweets") {
@@ -156,11 +156,11 @@ function logic(action,value) {
     } else if (action === "movie-this") {
         getMovie(value);
     } else if (action === "do-what-it-says" && value === 0) {
-        var arr = [];
-        doIt();
-        arr[0] = action;
-        arr[1] = value;
-        logic(action,value)
+        // var arr = [];
+        // doIt();
+        // action = arr[0];
+        // value = arr[1];
+        // logic(action, value)
     } else {
         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
     }
