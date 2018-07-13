@@ -77,18 +77,19 @@ function getTweet() {
 
 
 function printHelp() {
+    console.log("____________________________\nAvailable commands are as follows\:  \n  my-tweets                           Prints your last " + getTweet.count + " tweets \n  spotify-this <\"Song Name\">          Prints song details\n  movie-this <\"Movie Name\">           Prints movie details\n  do-what-it-says                     Reads value in random.txt and performs that command  ");
 
 }
 
 
 
 const doIt = () => {
-    console.log("doIt was called")
-    fs.readFile("random.txt", "utf8", function(err, data) {
-        console.log(data + "preif")
+    fs.readFile("random.txt", "utf8", function (err, data) {
         if (!err) {
-            console.log(data + "data");
-            return data;
+            var cmd = data.split(",")
+            action = cmd[0];
+            value = cmd[1];
+            logic(action, value)
         } else {
             console.log("File could not be read.")
         }
@@ -129,7 +130,7 @@ function getMovie(value) {
 // main page logic here
 
 
-var action = process.argv[2];
+var action = process.argv[2].trim().toLowerCase();
 var value = setValue();
 
 
@@ -139,7 +140,7 @@ logic(action, value);
 // this is handling nulls as not all commands have a second value passed
 function setValue() {
     if (process.argv[3] != null) {
-        return process.argv[3];
+        return process.argv[3].trim().toLowerCase();
     } else {
         return 0;
     }
@@ -149,7 +150,7 @@ function setValue() {
 
 
 function logic(action, value) {
-    
+
     if (action === "my-tweets") {
         getTweet();
 
@@ -159,15 +160,11 @@ function logic(action, value) {
     } else if (action === "movie-this") {
         getMovie(value);
 
-    } else if (action === "do-what-it-says" && value === 0) {
-        var arr = doIt();
-        console.log(arr + "logic");
-       var cmd = arr.split(",")
-      // console.log(arr);
-        action = cmd[0];
-        value = cmd[1];
+    } else if (action === "help") {
+        printHelp();
 
-        // logic(action, value)
+    } else if (action === "do-what-it-says" && value === 0) {
+       doIt();
     } else {
         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
     }
