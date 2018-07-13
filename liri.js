@@ -83,7 +83,7 @@ function printHelp() {
 
 
 
-const doIt = () => {
+function doIt() {
     fs.readFile("random.txt", "utf8", function (err, data) {
         if (!err) {
             var cmd = data.split(",")
