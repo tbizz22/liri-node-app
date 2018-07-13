@@ -77,8 +77,7 @@ function getTweet() {
 
 
 function printHelp() {
-    console.log("____________________________\nAvailable commands are as follows\:  \n  my-tweets                           Prints your last " + getTweet.count + " tweets \n  spotify-this <\"Song Name\">          Prints song details\n  movie-this <\"Movie Name\">           Prints movie details\n  do-what-it-says                     Reads value in random.txt and performs that command  ");
-
+    console.log("____________________________\nAvailable commands are as follows\:  \n  my-tweets                           Prints your last " + getTweet.count + " tweets \n  spotify-this <\"Song Name\">          Prints song details\n  movie-this <\"Movie Name\">           Prints movie details\n  do-what-it-says                     Reads value in random.txt and performs that command");
 }
 
 
