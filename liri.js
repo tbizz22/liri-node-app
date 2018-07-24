@@ -102,11 +102,12 @@ function getMovie(value) {
     var token = key.omdb.key;
     var url = ("http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=" + token)
     var encoded = encodeURI(url);
+    
 
     request(encoded, function (err, response, body) {
         if (!err) {
             var b = JSON.parse(body);
-
+            
             // still working on pointer functions but overall this code makes sense. 
             var ratings = b.Ratings
             var rtIndex = ratings.findIndex(x => x.Source == "Rotten Tomatoes")
@@ -130,16 +131,26 @@ function getMovie(value) {
 
 
 var action = process.argv[2].trim().toLowerCase();
-var value = setValue();
+var value = setValue(action);
 
 
 logic(action, value);
 
 
 // this is handling nulls as not all commands have a second value passed
-function setValue() {
+function setValue(action) {
     if (process.argv[3] != null) {
         return process.argv[3].trim().toLowerCase();
+
+    } else if (action === "spotify-this-song") {
+        // Just searching for the 'the sign' does not return the expected value. 
+        value = "the Sign ace of base"
+        return value; 
+
+    } else if (action === "movie-this") {
+        value = "mr nobody"
+        return value;
+
     } else {
         return 0;
     }
@@ -157,7 +168,7 @@ function logic(action, value) {
         getSong(value);
 
     } else if (action === "movie-this") {
-        getMovie(value);
+       getMovie(value);
 
     } else if (action === "help") {
         printHelp();
@@ -168,50 +179,3 @@ function logic(action, value) {
         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// switch (action) {
-//     case 'my-tweets':
-//         getTweet()
-//         break;
-//     case 'spotify-this-song':
-//         getSong(value);
-//         break;
-//     case 'movie-this':
-//         getMovie(value);
-//         break;
-//     case 'do-what-it-says':
-//         doIt();
-//         break;
-//     case 'help':
-//         printHelp();
-//     default:
-//         console.log("Sorry we didn't understand the request. Type \"help\" for more information about available commands.");
-// }
