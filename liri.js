@@ -99,7 +99,7 @@ function doIt() {
 
 function getMovie(value) {
     var movieName = value;
-    var token = key.omdb.key;
+    var token = "trilogy" //key.omdb.key;
     var url = ("http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=" + token)
     var encoded = encodeURI(url);
     
